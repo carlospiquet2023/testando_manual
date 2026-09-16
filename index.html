@@ -815,11 +815,11 @@
                 <div class="cert-controles-grid">
                     <div class="ctrl-campo">
                         <label for="inputNomeCoordenadora">Nome da Coordenadora</label>
-                        <input type="text" id="inputNomeCoordenadora" value="Dra. Flávia Martins Guimarães" placeholder="Nome da Coordenadora" oninput="atualizarResponsaveisCertificado()">
+                        <input type="text" id="inputNomeCoordenadora" value="" placeholder="Nome da Coordenadora (opcional)" oninput="atualizarResponsaveisCertificado()">
                     </div>
                     <div class="ctrl-campo">
                         <label for="inputNomeGestor">Gestor Técnico de Ambientes Virtuais (STI • PGE-RJ)</label>
-                        <input type="text" id="inputNomeGestor" value="Carlos Eduardo S. Rocha" placeholder="Nome do Gestor Técnico" oninput="atualizarResponsaveisCertificado()">
+                        <input type="text" id="inputNomeGestor" value="" placeholder="Nome do Gestor Técnico (opcional)" oninput="atualizarResponsaveisCertificado()">
                     </div>
                     <div class="ctrl-campo ctrl-modalidade">
                         <label>Opção de Assinatura</label>
@@ -886,52 +886,38 @@
                             </div>
                         </div>
 
-                        <!-- Assinaturas e Selo Oficial -->
+                        <!-- Assinaturas Oficiais (Sem selo circular central) -->
                         <div class="cert-assinaturas-container">
                             <!-- Assinatura Coordenadora -->
                             <div class="cert-ass-bloco" id="blocoAssCoordenadora">
                                 <div class="cert-rubrica-desenho" id="rubricaCoordenadoraWrap">
-                                    <span class="rubrica-digital-coordenadora" id="rubricaTextoCoordenadora">Flávia M. Guimarães</span>
+                                    <span class="rubrica-digital-coordenadora" id="rubricaTextoCoordenadora"></span>
                                     <span class="selo-assinatura-digital">Assinado Eletronicamente</span>
                                 </div>
-                                <div class="espaco-assinatura-manual hidden" id="manualCoordenadoraWrap">
-                                    <span class="manual-hint">[ Assinatura à mão ]</span>
-                                </div>
+                                <div class="espaco-assinatura-manual hidden" id="manualCoordenadoraWrap"></div>
                                 <div class="cert-ass-traco"></div>
-                                <span class="cert-autoridade-nome" id="certNomeCoordenadora">Dra. Flávia Martins Guimarães</span>
+                                <span class="cert-autoridade-nome" id="certNomeCoordenadora"></span>
                                 <span class="cert-autoridade-cargo">Coordenadora Geral Pedagógica</span>
                                 <span class="cert-autoridade-orgao">ESAP • PGE-RJ</span>
-                            </div>
-
-                            <!-- Selo Dourado Central -->
-                            <div class="cert-selo-wrap">
-                                <div class="cert-selo-emblema">
-                                    <span class="selo-estrela">★ ★ ★</span>
-                                    <span class="selo-titulo">CONCLUÍDO COM ÊXITO</span>
-                                    <span class="selo-ambiente">MOODLE PGE-RJ</span>
-                                    <span class="selo-hash" id="certCodigoAutenticidade">COD: ESAP-2026-OK</span>
-                                </div>
                             </div>
 
                             <!-- Assinatura Gestor Técnico -->
                             <div class="cert-ass-bloco" id="blocoAssGestor">
                                 <div class="cert-rubrica-desenho" id="rubricaGestorWrap">
-                                    <span class="rubrica-digital-gestor" id="rubricaTextoGestor">Carlos Eduardo S. Rocha</span>
+                                    <span class="rubrica-digital-gestor" id="rubricaTextoGestor"></span>
                                     <span class="selo-assinatura-digital">Assinado Eletronicamente</span>
                                 </div>
-                                <div class="espaco-assinatura-manual hidden" id="manualGestorWrap">
-                                    <span class="manual-hint">[ Assinatura à mão ]</span>
-                                </div>
+                                <div class="espaco-assinatura-manual hidden" id="manualGestorWrap"></div>
                                 <div class="cert-ass-traco"></div>
-                                <span class="cert-autoridade-nome" id="certNomeGestor">Carlos Eduardo S. Rocha</span>
+                                <span class="cert-autoridade-nome" id="certNomeGestor"></span>
                                 <span class="cert-autoridade-cargo">Gestor Técnico de Ambientes Virtuais</span>
                                 <span class="cert-autoridade-orgao">Superintendência de TI • PGE-RJ</span>
                             </div>
                         </div>
 
-                        <!-- Rodapé do Certificado -->
+                        <!-- Rodapé do Certificado com Autenticidade -->
                         <div class="cert-rodape-legal">
-                            <span>Documento oficial de certificação profissional interna expedido pela Escola Superior de Advocacia Pública (ESAP/PGE-RJ).</span>
+                            <span>Documento oficial de certificação profissional expedido pela Escola Superior de Advocacia Pública (ESAP/PGE-RJ). &nbsp;•&nbsp; Autenticidade: <strong id="certCodigoAutenticidade">ESAP-2026</strong></span>
                         </div>
                     </div>
                 </div>

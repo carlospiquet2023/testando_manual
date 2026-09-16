@@ -671,22 +671,31 @@ function atualizarResponsaveisCertificado() {
     const inputCoord = document.getElementById('inputNomeCoordenadora');
     const inputGestor = document.getElementById('inputNomeGestor');
 
-    const nomeCoord = inputCoord && inputCoord.value.trim() ? inputCoord.value.trim() : 'Dra. Flávia Martins Guimarães';
-    const nomeGestor = inputGestor && inputGestor.value.trim() ? inputGestor.value.trim() : 'Carlos Eduardo S. Rocha';
+    const nomeCoord = inputCoord ? inputCoord.value.trim() : '';
+    const nomeGestor = inputGestor ? inputGestor.value.trim() : '';
 
-    // Atualizar no certificado
+    // Atualizar Coordenadora
     const certNomeCoord = document.getElementById('certNomeCoordenadora');
     const rubricaTextoCoord = document.getElementById('rubricaTextoCoordenadora');
-    if (certNomeCoord) certNomeCoord.textContent = nomeCoord;
+    if (certNomeCoord) {
+        certNomeCoord.textContent = nomeCoord;
+        certNomeCoord.style.display = nomeCoord ? 'block' : 'none';
+    }
     if (rubricaTextoCoord) {
-        rubricaTextoCoord.textContent = nomeCoord.replace(/^(Dra\.|Dr\.|Prof\.|Profa\.)\s*/i, '');
+        rubricaTextoCoord.textContent = nomeCoord ? nomeCoord.replace(/^(Dra\.|Dr\.|Prof\.|Profa\.)\s*/i, '') : '';
+        rubricaTextoCoord.style.display = nomeCoord ? 'inline-block' : 'none';
     }
 
+    // Atualizar Gestor Técnico
     const certNomeGestor = document.getElementById('certNomeGestor');
     const rubricaTextoGestor = document.getElementById('rubricaTextoGestor');
-    if (certNomeGestor) certNomeGestor.textContent = nomeGestor;
+    if (certNomeGestor) {
+        certNomeGestor.textContent = nomeGestor;
+        certNomeGestor.style.display = nomeGestor ? 'block' : 'none';
+    }
     if (rubricaTextoGestor) {
         rubricaTextoGestor.textContent = nomeGestor;
+        rubricaTextoGestor.style.display = nomeGestor ? 'inline-block' : 'none';
     }
 }
 

@@ -265,12 +265,17 @@ body {
     background: #ffffff;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    padding: 40px 48px 48px 48px;
+    padding: 36px 40px;
     margin-bottom: 32px;
     display: flex;
     flex-direction: column;
-    min-height: 820px;
     box-sizing: border-box;
+    page-break-before: avoid;
+    break-before: avoid;
+    page-break-after: always;
+    break-after: page;
+    page-break-inside: avoid;
+    break-inside: avoid;
 }
 
 .capa-topo-direito {
@@ -652,6 +657,24 @@ body {
     border-radius: 10px;
     padding: 16px;
     margin: 16px 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+/* Prevenir quebra de página dentro de elementos atômicos */
+.fluxo-box,
+.figura-doc,
+.passo,
+.alerta,
+.tabela-config,
+.modelo-csv,
+.cards-turma,
+.regras-lista,
+.secao-header,
+.sub-titulo,
+.painel-conclusao-grid {
+    break-inside: avoid;
+    page-break-inside: avoid;
 }
 
 .fluxo-titulo {
@@ -1437,6 +1460,10 @@ body {
     }
 
     /* ELEMENTOS ATÔMICOS (EVITAR QUEBRA NO MEIO) */
+    .fluxo-box,
+    .regras-lista,
+    .secao-header,
+    .sub-titulo,
     .figura-doc,
     .passo,
     .alerta,
@@ -1493,16 +1520,33 @@ body {
         font-size: 9pt !important;
     }
 
-    /* CAPA OFICIAL (PÁGINA 1 ISOLADA) */
+    /* CAPA OFICIAL (PÁGINA 1 ISOLADA E COMPACTA - SEM TRANSBORDAMENTO) */
     .capa-oficial {
         box-shadow: none !important;
         border: none !important;
         border-radius: 0 !important;
-        padding: 40px 24px 20px 24px !important;
-        min-height: 255mm !important;
+        padding: 20px 20px 14px 20px !important;
+        margin: 0 !important;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: 260mm !important;
+        page-break-before: avoid !important;
+        break-before: avoid !important;
         page-break-after: always !important;
         break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
     }
+
+    .capa-topo-direito { margin-bottom: 20px !important; }
+    .capa-subtitulo-topo { font-size: 20pt !important; margin-bottom: 4px !important; }
+    .capa-titulo-principal { font-size: 28pt !important; margin-bottom: 8px !important; }
+    .capa-descricao { font-size: 11pt !important; }
+    .capa-linha-divisoria { margin: 0 auto 18px auto !important; }
+    .capa-bloco-ambiente { margin-bottom: 18px !important; }
+    .capa-bloco-objetivo { margin: 0 auto 18px auto !important; }
+    .capa-participante-badge { margin: 8px auto 14px auto !important; }
+    .capa-rodape { padding-top: 12px !important; }
 
     /* SEÇÃO 12: PÁGINA FINAL A4 (1 PÁGINA INTEIRA SEM QUEBRA) */
     .pagina-final-a4 {

@@ -432,6 +432,26 @@ function exportarPDF() {
                 if (clonedAss) {
                     clonedAss.textContent = dadosTreinamento.nome || '—';
                 }
+
+                // Ajustar capa no clone para ocupar exatamente a Página 1 e quebrar para a Página 2
+                const clonedCapa = clonedDoc.querySelector('.capa-oficial');
+                if (clonedCapa) {
+                    clonedCapa.style.pageBreakBefore = 'avoid';
+                    clonedCapa.style.breakBefore = 'avoid';
+                    clonedCapa.style.pageBreakAfter = 'always';
+                    clonedCapa.style.breakAfter = 'page';
+                    clonedCapa.style.pageBreakInside = 'avoid';
+                    clonedCapa.style.breakInside = 'avoid';
+                    clonedCapa.style.marginBottom = '0';
+                    clonedCapa.style.boxShadow = 'none';
+                    clonedCapa.style.border = 'none';
+                }
+
+                // Blindar todos os elementos contra quebra no meio
+                clonedDoc.querySelectorAll('.fluxo-box, .figura-doc, .passo, .alerta, .tabela-config, .secao-header, .regras-lista, .sub-titulo, .modelo-csv, .cards-turma, .painel-conclusao-grid, .rubrica-topo-compacto, .tabela-rubrica-compacta').forEach(el => {
+                    el.style.pageBreakInside = 'avoid';
+                    el.style.breakInside = 'avoid';
+                });
             }
         },
         jsPDF: {
@@ -441,8 +461,24 @@ function exportarPDF() {
         },
         pagebreak: {
             mode: ['css', 'legacy'],
-            before: ['.capa-oficial', '.pagina-final-a4'],
-            avoid: ['.figura-doc', '.passo', '.alerta', '.tabela-config', '.painel-conclusao-grid']
+            after: ['.capa-oficial'],
+            before: ['.pagina-final-a4'],
+            avoid: [
+                '.capa-oficial',
+                '.fluxo-box',
+                '.figura-doc',
+                '.passo',
+                '.alerta',
+                '.tabela-config',
+                '.modelo-csv',
+                '.cards-turma',
+                '.regras-lista',
+                '.secao-header',
+                '.sub-titulo',
+                '.painel-conclusao-grid',
+                '.rubrica-topo-compacto',
+                '.tabela-rubrica-compacta'
+            ]
         }
     };
 

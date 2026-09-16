@@ -1548,7 +1548,7 @@ body {
     .capa-participante-badge { margin: 8px auto 14px auto !important; }
     .capa-rodape { padding-top: 12px !important; }
 
-    /* SEÇÃO 12: PÁGINA FINAL A4 (1 PÁGINA INTEIRA SEM QUEBRA) */
+    /* SEÇÃO 12: PÁGINA FINAL A4 (1 PÁGINA INTEIRA BEM DISTRIBUÍDA E LEGÍVEL) */
     .pagina-final-a4 {
         page-break-before: always !important;
         break-before: page !important;
@@ -1557,78 +1557,95 @@ body {
         page-break-after: avoid !important;
         break-after: avoid !important;
         margin: 0 !important;
-        padding: 8px 14px !important;
+        padding: 14px 18px !important;
         border: 1.5px solid var(--azul) !important;
+        border-radius: 8px !important;
         background: white !important;
+        box-sizing: border-box !important;
     }
 
     .rubrica-topo-compacto {
-        padding: 6px 10px !important;
+        padding: 6px 10px 8px 10px !important;
+    }
+
+    .rubrica-topo-compacto h2 {
+        font-size: 13pt !important;
+    }
+
+    .rubrica-contador-badge {
+        font-size: 9.5pt !important;
+        padding: 2px 10px !important;
     }
 
     .rubrica-body-compacto {
-        padding: 8px 10px !important;
+        padding: 8px 10px 10px 10px !important;
     }
 
     .rubrica-aviso-mini {
-        padding: 4px 8px !important;
-        font-size: 8pt !important;
-        margin-bottom: 6px !important;
+        padding: 5px 10px !important;
+        font-size: 9pt !important;
+        margin-bottom: 8px !important;
+        line-height: 1.35 !important;
+    }
+
+    .tabela-rubrica-compacta {
+        font-size: 9pt !important;
+        width: 100% !important;
     }
 
     .tabela-rubrica-compacta th {
-        padding: 3px 6px !important;
-        font-size: 8.5pt !important;
+        padding: 4px 8px !important;
+        font-size: 9pt !important;
     }
 
     .tabela-rubrica-compacta td {
-        padding: 1.8px 6px !important;
-        font-size: 7.8pt !important;
-        line-height: 1.15 !important;
+        padding: 4px 8px !important;
+        font-size: 9.2pt !important;
+        line-height: 1.28 !important;
     }
 
     .rubrica-mark {
-        width: 15px !important;
-        height: 15px !important;
+        width: 17px !important;
+        height: 17px !important;
         border-width: 1.5px !important;
     }
 
     .rubrica-mark::after {
-        font-size: 10px !important;
+        font-size: 11px !important;
     }
 
     .painel-conclusao-grid {
         display: grid !important;
         grid-template-columns: 1fr 1.2fr 1.3fr !important;
-        gap: 8px !important;
-        margin-top: 6px !important;
-        padding-top: 6px !important;
+        gap: 12px !important;
+        margin-top: 10px !important;
+        padding-top: 10px !important;
     }
 
     .bloco-rotulo {
-        font-size: 8pt !important;
-        margin-bottom: 3px !important;
+        font-size: 8.5pt !important;
+        margin-bottom: 4px !important;
     }
 
     .resultado-label {
-        padding: 3px 8px !important;
-        font-size: 8.5pt !important;
-        gap: 6px !important;
+        padding: 5px 10px !important;
+        font-size: 9pt !important;
+        gap: 8px !important;
     }
 
     .resultado-marca {
-        width: 14px !important;
-        height: 14px !important;
+        width: 16px !important;
+        height: 16px !important;
     }
 
     .col-obs textarea {
-        height: 44px !important;
-        font-size: 8pt !important;
-        padding: 4px 6px !important;
+        height: 52px !important;
+        font-size: 8.5pt !important;
+        padding: 5px 8px !important;
     }
 
     .rubrica-container-compacto {
-        height: 44px !important;
+        height: 52px !important;
     }
 
     .input-nome-inline {
@@ -1637,7 +1654,7 @@ body {
 
     .assinatura-nome-print {
         display: block !important;
-        font-size: 9pt !important;
+        font-size: 9.5pt !important;
         font-weight: 700 !important;
         color: #0f172a !important;
     }

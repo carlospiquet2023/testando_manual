@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Prático Moodle | ESAP / PGE-RJ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<!-- ======================== TELA DE ENTRADA ======================== -->
+<div id="telaEntrada" class="tela-entrada">
+    <div class="entrada-card">
+        <div class="entrada-logo">
+            <div class="logo-icon">🎓</div>
+            <p class="entrada-badge">ESAP • PGE-RJ</p>
+            <h1>MANUAL PRÁTICO</h1>
+            <h2>MOODLE</h2>
+            <p class="entrada-subtitulo">Estrutura mínima para criação e administração de turmas</p>
+            <p class="entrada-ambiente">Ambiente: <strong>esap.pge.rj.gov.br</strong></p>
+        </div>
+        <div class="entrada-tags">
+            <span>Categoria</span><span>Curso</span><span>Coorte</span><span>CSV / Usuários</span>
+            <span>Matrícula</span><span>Tarefa</span><span>Presença</span><span>Personalização</span>
+        </div>
+        <div class="entrada-form">
+            <div class="campo-grupo">
+                <label for="nomeParticipante">Nome do Participante</label>
+                <input type="text" id="nomeParticipante" placeholder="Digite seu nome completo" required>
+            </div>
+            <div class="campo-row">
+                <div class="campo-grupo">
+                    <label for="dataAtividade">Data</label>
+                    <input type="date" id="dataAtividade" required>
+                </div>
+                <div class="campo-grupo">
+                    <label for="ambienteMoodle">Ambiente Moodle</label>
+                    <input type="text" id="ambienteMoodle" value="https://esap.pge.rj.gov.br/" placeholder="https://esap.pge.rj.gov.br/">
+                </div>
+            </div>
+            <button id="btnIniciar" class="btn-iniciar" onclick="iniciarTreinamento()">
+                <span>Iniciar Treinamento</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== CONTEÚDO PRINCIPAL ======================== -->
+<div id="conteudoPrincipal" class="conteudo-principal hidden">
+    
+    <!-- Barra de progresso fixa -->
+    <div class="barra-progresso-fixa no-print">
+        <div class="progresso-info">
+            <span id="progressoTexto">0 de 17 evidências conferidas</span>
+            <span id="progressoPct">0%</span>
+        </div>
+        <div class="progresso-barra">
+            <div id="progressoFill" class="progresso-fill" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <!-- Área de impressão -->
+    <div id="areaPrint">
+
+        <!-- ============ CAPA OFICIAL (PÁGINA 1) ============ -->
+        <section class="capa-oficial">
+            <div class="capa-topo-direito">
+                MANUAL PRÁTICO MOODLE &nbsp;|&nbsp; ESAP / PGE-RJ
+            </div>
+
+            <div class="capa-corpo-central">
+                <div class="capa-titulos">
+                    <h1 class="capa-subtitulo-topo">MANUAL PRÁTICO</h1>
+                    <h2 class="capa-titulo-principal">TREINAMENTO MOODLE</h2>
+                    <p class="capa-descricao">Estrutura mínima para criação e administração de turmas</p>
+                </div>
+
+                <div class="capa-linha-divisoria"></div>
+
+                <div class="capa-bloco-ambiente">
+                    <span class="capa-ambiente-label">AMBIENTE OFICIAL</span>
+                    <a href="https://esap.pge.rj.gov.br/" target="_blank" class="capa-ambiente-link" id="displayAmbiente">https://esap.pge.rj.gov.br/</a>
+                </div>
+
+                <div class="capa-bloco-objetivo">
+                    <h3 class="capa-objetivo-titulo">Objetivo</h3>
+                    <p class="capa-objetivo-texto">
+                        Capacitar a equipe para montar uma turma funcional no Moodle:<br>
+                        categoria, curso, coorte, usuários, atividades, presença e personalização visual.
+                    </p>
+                    <div class="capa-resultado-box">
+                        <strong>Resultado esperado:</strong> ao final, cada participante deverá conseguir repetir o processo sozinho, com o mínimo de intervenção externa.
+                    </div>
+                </div>
+
+                <!-- Dados do Participante integrados na capa -->
+                <div class="capa-participante-badge">
+                    <div class="capa-part-col">
+                        <span class="capa-part-rotulo">PARTICIPANTE</span>
+                        <span class="capa-part-nome" id="displayNome">—</span>
+                    </div>
+                    <div class="capa-part-divisor">|</div>
+                    <div class="capa-part-col">
+                        <span class="capa-part-rotulo">DATA</span>
+                        <span class="capa-part-data" id="displayData">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="capa-rodape">
+                <p class="capa-rodape-instituicao">ESAP • PGE-RJ</p>
+                <p class="capa-rodape-sub">Material operacional de treinamento interno</p>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 0: VISÃO GERAL ============ -->
+        <section class="secao">
+            <div class="secao-header">
+                <span class="secao-num">0</span>
+                <h2>Visão Geral do Treinamento</h2>
+            </div>
+            <div class="secao-body">
+                <p>O treinamento deve ser executado no ambiente Moodle da ESAP/PGE-RJ. A sequência abaixo evita retrabalho e facilita a conferência das etapas.</p>
+                <div class="fluxo-box">
+                    <span class="fluxo-titulo">Fluxo esperado:</span>
+                    <div class="fluxo-items">
+                        <span class="fluxo-item">Categoria</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Curso</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Coorte</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">CSV / Usuários</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Matrícula</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Tarefa</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Presença</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Personalização</span>
+                    </div>
+                </div>
+
+                <h3 class="sub-titulo">Competências mínimas</h3>
+                <ul class="regras-lista">
+                    <li>Criar categoria e curso no local correto.</li>
+                    <li>Criar coorte e utilizar sua identificação no processo de importação.</li>
+                    <li>Transformar uma relação de alunos em CSV UTF-8 e importar os usuários.</li>
+                    <li>Adicionar um usuário manualmente e alterar sua senha.</li>
+                    <li>Associar usuários/coorte ao curso.</li>
+                    <li>Adicionar e configurar Presença (Attendance) e uma Tarefa.</li>
+                    <li>Disponibilizar um PDF na Tarefa e registrar falta/presença.</li>
+                    <li>Alterar a imagem do card da turma e inserir imagem em bloco de texto/HTML.</li>
+                </ul>
+
+                <div class="alerta alerta-info">
+                    <strong>Importante sobre atividades:</strong> Presença (Attendance) é um plugin adicional. A atividade Tarefa (Assignment) é nativa do Moodle e, normalmente, não precisa ser instalada como plugin.
+                </div>
+
+                <div class="alerta alerta-warn">
+                    <strong>Regra de execução:</strong> Cada participante deve executar as operações e, ao final, validar o curso também com uma conta de aluno. Isso confirma se matrícula, visibilidade, arquivos, atividades e prazos estão funcionando corretamente.
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 1 ============ -->
+        <section class="secao etapa" data-etapa="1">
+            <div class="secao-header etapa-header">
+                <span class="etapa-num">1</span>
+                <h2>Acessar a Administração do Site e Ativar o Modo de Edição</h2>
+            </div>
+            <div class="secao-body">
+                <p>O ponto de partida para as operações administrativas é o menu <strong>Administração do site</strong>. O modo de edição deve ser ativado sempre que for necessário alterar elementos visuais ou atividades do curso.</p>
+                
+                <div class="figura-doc">
+                    <img src="administração-modoedição.png" alt="Administração do site e Modo de edição">
+                    <p class="figura-legenda">Figura 1 — Administração do site e chave Modo de edição destacadas na barra superior.</p>
+                </div>
+
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Acesse <code>https://esap.pge.rj.gov.br/</code> e entre com uma conta que possua as permissões necessárias.</div>
+                    <div class="passo"><span class="passo-num">2</span> Clique em <strong>Administração do site</strong>.</div>
+                    <div class="passo"><span class="passo-num">3</span> Quando for editar um curso, atividade ou bloco, ative a chave <strong>Modo de edição</strong> no canto superior direito.</div>
+                </div>
+
+                <div class="alerta alerta-info">
+                    <strong>Conferência:</strong> se o menu Administração do site não estiver disponível, a conta pode não possuir permissão administrativa suficiente.
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 2 ============ -->
+        <section class="secao etapa" data-etapa="2">
+            <div class="secao-header etapa-header">
+                <span class="etapa-num">2</span>
+                <h2>Criar a Categoria da Turma</h2>
+            </div>
+            <div class="secao-body">
+                <p>As categorias organizam os cursos. Antes de criar um curso, confirme em qual categoria ele deve ficar.</p>
+                
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Na <strong>Administração do site</strong>, selecione a guia <strong>Cursos</strong>.</div>
+                    <div class="passo"><span class="passo-num">2</span> Acesse <strong>Gerenciar cursos e categorias</strong>.</div>
+                    <div class="passo"><span class="passo-num">3</span> Clique em <strong>Criar nova categoria</strong>.</div>
+                </div>
+
+                <div class="figura-doc">
+                    <img src="criar categoria.png" alt="Criar Categoria">
+                    <p class="figura-legenda">Figura 2 — Gerenciar cursos e categorias / Criar nova categoria.</p>
+                </div>
+
+                <h3 class="sub-titulo">Preenchimento mínimo</h3>
+                <table class="tabela-config">
+                    <tbody>
+                        <tr><td class="td-campo">Categoria pai</td><td>Selecionar conforme a estrutura oficial da ESAP.</td></tr>
+                        <tr><td class="td-campo">Nome da categoria</td><td>Utilizar o padrão definido para o treinamento/turma.</td></tr>
+                        <tr><td class="td-campo">Número de identificação</td><td>Preencher se o padrão interno exigir.</td></tr>
+                        <tr><td class="td-campo">Descrição</td><td>Opcional, mas recomendada quando houver várias turmas semelhantes.</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="instrucao-destaque">
+                    Exemplo de treinamento: <strong>TREINAMENTO MOODLE - TURMA 01</strong>. Use nomes de teste apenas no espaço autorizado para capacitação.
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 3 ============ -->
+        <section class="secao etapa" data-etapa="3">
+            <div class="secao-header etapa-header">
+                <span class="etapa-num">3</span>
+                <h2>Criar o Curso Dentro da Categoria</h2>
+            </div>
+            <div class="secao-body">
+                <p>Depois de criada ou selecionada a categoria correta, crie o curso que representará a turma.</p>
+                
+                <div class="figura-doc">
+                    <img src="criar novo curso.png" alt="Criar novo curso">
+                    <p class="figura-legenda">Figura 3 — Criar novo curso dentro da categoria desejada.</p>
+                </div>
+
+                <h3 class="sub-titulo">Configurações essenciais do curso</h3>
+                <table class="tabela-config">
+                    <thead>
+                        <tr><th>Campo</th><th>Orientação</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="td-campo">Nome completo do curso</td><td>Ex.: Capacitação Moodle - Turma 01.</td></tr>
+                        <tr><td class="td-campo">Nome breve</td><td>Ex.: <code>CAP-MOODLE-T01</code>.</td></tr>
+                        <tr><td class="td-campo">Categoria do curso</td><td>Confirmar a categoria correta antes de salvar.</td></tr>
+                        <tr><td class="td-campo">Visibilidade</td><td>Deixar visível apenas quando o curso estiver pronto para os alunos.</td></tr>
+                        <tr><td class="td-campo">Data de início</td><td>Definir a data real da turma.</td></tr>
+                        <tr><td class="td-campo">Resumo do curso</td><td>Inserir uma descrição curta e objetiva.</td></tr>
+                        <tr><td class="td-campo">Imagem do curso</td><td>Adicionar a imagem que aparecerá no card da turma.</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="alerta alerta-info">
+                    <strong>Card da turma:</strong> a imagem definida nas configurações do curso é utilizada pelo tema para identificar visualmente o curso. O resultado pode variar de acordo com o tema configurado no Moodle.
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 4 ============ -->
+        <section class="secao etapa" data-etapa="4">
+            <div class="secao-header etapa-header">
+                <span class="etapa-num">4</span>
+                <h2>Criar a Coorte e Preparar o Arquivo CSV</h2>
+            </div>
+            <div class="secao-body">
+                <p>Se o CSV for utilizar o campo <code>cohort1</code>, a coorte deve existir <strong>antes</strong> da importação para que o vínculo seja reconhecido corretamente.</p>
+                
+                <h3 class="sub-titulo">4.1 Criar a coorte</h3>
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Administração do site → Usuários → Contas → <strong>Coortes</strong>.</div>
+                    <div class="passo"><span class="passo-num">2</span> Clique em <strong>Adicionar nova coorte</strong>.</div>
+                    <div class="passo"><span class="passo-num">3</span> Defina um nome claro para a turma.</div>
+                    <div class="passo"><span class="passo-num">4</span> Preencha o ID da coorte conforme o padrão interno. Ex.: <code>CAP-MOODLE-T01</code>.</div>
+                    <div class="passo"><span class="passo-num">5</span> Salve a coorte <strong>antes</strong> de preparar/importar o CSV.</div>
+                </div>
+
+                <h3 class="sub-titulo">4.2 Converter a relação em PDF para CSV</h3>
+                <p>Extraia os dados do PDF para uma planilha, revise cada coluna e salve como CSV em UTF-8. No ambiente mostrado nas capturas, o delimitador configurado é <strong>ponto e vírgula (;)</strong>.</p>
+                
+                <div class="modelo-csv">
+                    <span class="csv-titulo">Modelo de CSV:</span>
+                    <table class="csv-table">
+                        <thead>
+                            <tr><th>username</th><th>firstname</th><th>lastname</th><th>email</th><th>password</th><th>cohort1</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>joao.silva</td><td>João</td><td>Silva</td><td>joao.silva@exemplo.br</td><td>Temp@123</td><td>CAP-MOODLE-T01</td></tr>
+                            <tr><td>maria.souza</td><td>Maria</td><td>Souza</td><td>maria.souza@exemplo.br</td><td>Temp@123</td><td>CAP-MOODLE-T01</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="sub-titulo">Antes de importar, conferir:</h3>
+                <ul class="regras-lista">
+                    <li><code>username</code> sem espaços e sem duplicidade</li>
+                    <li>Nome e sobrenome separados corretamente</li>
+                    <li>E-mail válido/único conforme a política do ambiente</li>
+                    <li>Senha temporária conforme a política de segurança</li>
+                    <li><code>cohort1</code> com o ID exato da coorte</li>
+                    <li>Arquivo salvo em CSV UTF-8 com o delimitador correto</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 5 ============ -->
+        <section class="secao etapa" data-etapa="5">
+            <div class="secao-header etapa-header">
+                <span class="etapa-num">5</span>
+                <h2>Carregar a Lista de Usuários por CSV</h2>
+            </div>
+            <div class="secao-body">
+                <p>A importação em lote é usada quando há vários participantes. Sempre revise a pré-visualização antes de confirmar a criação dos usuários.</p>
+                
+                <div class="instrucao-destaque">
+                    Caminho: Administração do site → Usuários → Contas → <strong>Carregar lista de usuários</strong>
+                </div>
+
+                <div class="figura-doc">
+                    <img src="criar lista de usuario.png" alt="Carregar lista de usuários">
+                    <p class="figura-legenda">Figura 4 — Administração do site → Usuários → Contas → Carregar lista de usuários.</p>
+                </div>
+
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Escolha ou arraste o arquivo CSV para a área de envio.</div>
+                    <div class="passo"><span class="passo-num">2</span> Confirme <strong>Delimitador do CSV = ;</strong> quando o arquivo tiver sido salvo com ponto e vírgula.</div>
+                    <div class="passo"><span class="passo-num">3</span> Confirme <strong>Codificação = UTF-8</strong>.</div>
+                    <div class="passo"><span class="passo-num">4</span> Clique em <strong>Carregar lista de usuários</strong> e confira a pré-visualização.</div>
+                    <div class="passo"><span class="passo-num">5</span> Antes de concluir, verifique erros, duplicidades, campos ausentes e a coorte associada.</div>
+                </div>
+
+                <div class="figura-doc">
+                    <img src="arquivo csv.png" alt="Envio do CSV">
+                    <p class="figura-legenda">Figura 5 — Envio do CSV: confirme o delimitador (;) e a codificação UTF-8.</p>
+                </div>
+
+                <div class="alerta alerta-warn">
+                    <strong>Boa prática:</strong> não finalize uma importação com avisos que você não entendeu. Corrija a planilha ou a configuração e repita a pré-visualização.
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 6 ============ -->
+        <section class="secao etapa" data-etapa="6">
+            <div class="secao-header etapa-header">
+                <span class="etapa-num">6</span>
+                <h2>Adicionar um Usuário Individualmente e Alterar Senha</h2>
+            </div>
+            <div class="secao-body">
+                <p>O treinamento deve incluir pelo menos um cadastro manual para que a equipe saiba tratar inclusões pontuais sem depender do CSV.</p>
+                
+                <div class="instrucao-destaque">
+                    Caminho: Administração do site → Usuários → Contas → <strong>Adicionar um novo usuário</strong>
+                </div>
+
+                <div class="figura-doc">
+                    <img src="adc um novo usuario .png" alt="Adicionar novo usuário">
+                    <p class="figura-legenda">Figura 6 — Administração do site → Usuários → Contas → Adicionar um novo usuário.</p>
+                </div>
+
+                <h3 class="sub-titulo">Cadastro manual</h3>
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Clique em <strong>Adicionar um novo usuário</strong>.</div>
+                    <div class="passo"><span class="passo-num">2</span> Preencha username, nome, sobrenome e e-mail.</div>
+                    <div class="passo"><span class="passo-num">3</span> Defina uma senha temporária de acordo com a política vigente.</div>
+                    <div class="passo"><span class="passo-num">4</span> Preencha os demais campos obrigatórios do ambiente e salve.</div>
+                </div>
+
+                <h3 class="sub-titulo">Alteração de senha</h3>
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Administração do site → Usuários → Contas → <strong>Lista de usuários</strong>.</div>
+                    <div class="passo"><span class="passo-num">2</span> Localize o usuário e abra a opção de edição.</div>
+                    <div class="passo"><span class="passo-num">3</span> No campo de nova senha, informe a senha temporária desejada.</div>
+                    <div class="passo"><span class="passo-num">4</span> Salve a alteração e valide o acesso conforme o procedimento interno.</div>
+                </div>
+
+                <div class="alerta alerta-danger">
+                    <strong>🔒 Segurança:</strong> não reutilize senhas reais em ambiente de treinamento e não exponha senhas em capturas de tela ou materiais compartilhados.
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 7 ============ -->
+        <section class="secao etapa" data-etapa="7">
+            <div class="secao-header etapa-header">
+                <span class="etapa-num">7</span>
+                <h2>Vincular a Coorte ao Curso</h2>
+            </div>
+            <div class="secao-body">
+                <p>Depois de criar os usuários e a coorte, a turma precisa ser vinculada ao curso para que os participantes tenham acesso.</p>
+                
+                <h3 class="sub-titulo">Método recomendado: sincronização de coorte</h3>
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Entre no curso criado.</div>
+                    <div class="passo"><span class="passo-num">2</span> Acesse <strong>Participantes</strong>.</div>
+                    <div class="passo"><span class="passo-num">3</span> Abra <strong>Métodos de inscrição / Métodos de matrícula</strong> (o nome pode variar conforme a tradução/tema).</div>
+                    <div class="passo"><span class="passo-num">4</span> Adicione <strong>Sincronização de coorte</strong>.</div>
+                    <div class="passo"><span class="passo-num">5</span> Selecione a coorte da turma e defina o papel adequado, normalmente <strong>Estudante</strong>.</div>
+                    <div class="passo"><span class="passo-num">6</span> Salve e confira se os integrantes aparecem em <strong>Participantes</strong>.</div>
+                </div>
+
+                <div class="alerta alerta-warn">
+                    <strong>Diferença importante:</strong> criar o usuário não significa matriculá-lo no curso. A coorte organiza usuários; a sincronização de coorte efetiva o acesso ao curso.
+                </div>
+
+                <h3 class="sub-titulo">Validação</h3>
+                <ul class="regras-lista">
+                    <li>O usuário aparece em Participantes?</li>
+                    <li>O papel está correto?</li>
+                    <li>A coorte escolhida é a da turma certa?</li>
+                    <li>Uma conta de aluno consegue abrir o curso?</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 8 ============ -->
+        <section class="secao etapa" data-etapa="8">
+            <div class="secao-header etapa-header">
+                <span class="etapa-num">8</span>
+                <h2>Adicionar Presença e Tarefa</h2>
+            </div>
+            <div class="secao-body">
+                <p>A equipe deve saber configurar uma atividade de presença e uma tarefa simples para entrega de material/arquivo.</p>
+                
+                <h3 class="sub-titulo">8.1 Presença (Attendance)</h3>
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Se o plugin ainda não existir e você tiver permissão: Administração do site → Plugins → Instalar plugins.</div>
+                    <div class="passo"><span class="passo-num">2</span> No curso, ative <strong>Modo de edição</strong>.</div>
+                    <div class="passo"><span class="passo-num">3</span> Adicionar uma atividade ou recurso → <strong>Presença (Attendance)</strong>.</div>
+                    <div class="passo"><span class="passo-num">4</span> Salve a atividade e abra-a.</div>
+                    <div class="passo"><span class="passo-num">5</span> Crie uma sessão para a aula/data desejada.</div>
+                    <div class="passo"><span class="passo-num">6</span> Use <strong>Registrar presença / Take attendance</strong> e marque cada participante conforme a situação.</div>
+                </div>
+
+                <div class="alerta alerta-info">
+                    <strong>Status:</strong> os rótulos podem variar conforme a configuração do plugin. Normalmente há opções equivalentes a Presente, Ausente/Falta, Atraso e Justificado.
+                </div>
+
+                <h3 class="sub-titulo">8.2 Tarefa</h3>
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> No curso, com <strong>Modo de edição</strong> ativo, clique em <strong>Adicionar uma atividade ou recurso</strong>.</div>
+                    <div class="passo"><span class="passo-num">2</span> Selecione <strong>Tarefa</strong>.</div>
+                    <div class="passo"><span class="passo-num">3</span> Informe nome, instruções e datas de abertura/entrega.</div>
+                    <div class="passo"><span class="passo-num">4</span> Em <strong>Tipos de envio</strong>, habilite Envio de arquivos quando os alunos precisarem anexar documentos.</div>
+                    <div class="passo"><span class="passo-num">5</span> Salve e teste como aluno.</div>
+                </div>
+
+                <div class="alerta alerta-info">
+                    <strong>Observação técnica:</strong> Tarefa é uma atividade padrão do Moodle. O treinamento deve ensinar a adicionar/configurar a atividade, e não instalar um plugin separado para ela.
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 9 ============ -->
+        <section class="secao etapa" data-etapa="9">
+            <div class="secao-header etapa-header">
+                <span class="etapa-num">9</span>
+                <h2>Disponibilizar PDF na Tarefa e Registrar Falta/Presença</h2>
+            </div>
+            <div class="secao-body">
+                <p>Estas duas operações fecham o fluxo mínimo de uma turma: material/instrução acessível ao aluno e controle de comparecimento.</p>
+                
+                <h3 class="sub-titulo">Inserir um PDF na Tarefa</h3>
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Edite as configurações da Tarefa.</div>
+                    <div class="passo"><span class="passo-num">2</span> Na descrição, use o editor de texto para inserir o arquivo PDF quando ele fizer parte das instruções; alternativamente, disponibilize o PDF como recurso <strong>Arquivo</strong> na seção do curso.</div>
+                    <div class="passo"><span class="passo-num">3</span> Defina um nome claro para o arquivo.</div>
+                    <div class="passo"><span class="passo-num">4</span> Salve e abra a atividade para conferir se o PDF está acessível.</div>
+                    <div class="passo"><span class="passo-num">5</span> Use uma conta de aluno para verificar a visualização real.</div>
+                </div>
+
+                <div class="alerta alerta-danger">
+                    <strong>Atenção:</strong> o campo de envio da Tarefa é destinado ao arquivo enviado pelo aluno. Para fornecer um PDF ao aluno, coloque-o nas instruções/descrição da Tarefa ou como recurso Arquivo no curso.
+                </div>
+
+                <h3 class="sub-titulo">Registrar falta e presença</h3>
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Abra a atividade Presença.</div>
+                    <div class="passo"><span class="passo-num">2</span> Selecione a sessão correspondente à aula.</div>
+                    <div class="passo"><span class="passo-num">3</span> Clique em <strong>Registrar presença / Take attendance</strong>.</div>
+                    <div class="passo"><span class="passo-num">4</span> Marque <strong>Presente</strong> ou <strong>Ausente/Falta</strong> para cada aluno conforme o caso.</div>
+                    <div class="passo"><span class="passo-num">5</span> Salve e confira o relatório.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 10 ============ -->
+        <section class="secao etapa" data-etapa="10">
+            <div class="secao-header etapa-header">
+                <span class="etapa-num">10</span>
+                <h2>Alterar Imagem do Bloco e do Card de Cada Turma</h2>
+            </div>
+            <div class="secao-body">
+                <p>A identidade visual facilita a localização rápida das turmas e reduz erros de operação quando existem muitos cursos semelhantes.</p>
+                
+                <h3 class="sub-titulo">10.1 Imagem do card do curso</h3>
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Entre no curso.</div>
+                    <div class="passo"><span class="passo-num">2</span> Abra <strong>Configurações do curso</strong>.</div>
+                    <div class="passo"><span class="passo-num">3</span> Localize a área de resumo/arquivos do resumo do curso.</div>
+                    <div class="passo"><span class="passo-num">4</span> Envie a imagem definida para a turma.</div>
+                    <div class="passo"><span class="passo-num">5</span> Salve e volte ao Painel / Meus cursos para conferir o card.</div>
+                </div>
+
+                <h3 class="sub-titulo">10.2 Imagem em bloco</h3>
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Ative <strong>Modo de edição</strong>.</div>
+                    <div class="passo"><span class="passo-num">2</span> Adicione um bloco de <strong>Texto/HTML</strong>, se ele estiver disponível no ambiente.</div>
+                    <div class="passo"><span class="passo-num">3</span> Edite o conteúdo do bloco e utilize o editor para inserir a imagem/banner da turma.</div>
+                    <div class="passo"><span class="passo-num">4</span> Ajuste tamanho e alinhamento para não prejudicar a leitura em telas menores.</div>
+                    <div class="passo"><span class="passo-num">5</span> Salve e teste a visualização.</div>
+                </div>
+
+                <div class="alerta alerta-info">
+                    <strong>Padrão visual sugerido:</strong> use uma imagem diferente por turma, mas mantenha o mesmo formato, proporção e identidade institucional. Isso cria consistência sem confundir os alunos.
+                </div>
+
+                <div class="cards-turma">
+                    <div class="card-turma">Turma 01 → imagem A</div>
+                    <div class="card-turma">Turma 02 → imagem B</div>
+                    <div class="card-turma">Turma 03 → imagem C</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 11 ============ -->
+        <section class="secao etapa" data-etapa="11">
+            <div class="secao-header etapa-header">
+                <span class="etapa-num">11</span>
+                <h2>Validação Final com Conta de Aluno</h2>
+            </div>
+            <div class="secao-body">
+                <p>A estrutura só deve ser considerada pronta depois que o fluxo for testado fora da visão administrativa.</p>
+                
+                <div class="passos">
+                    <div class="passo"><span class="passo-num">1</span> Entrar com uma conta de aluno de teste.</div>
+                    <div class="passo"><span class="passo-num">2</span> Confirmar que o curso aparece em <strong>Meus cursos/Painel</strong>.</div>
+                    <div class="passo"><span class="passo-num">3</span> Abrir a Tarefa e verificar instruções, PDF e prazo.</div>
+                    <div class="passo"><span class="passo-num">4</span> Confirmar que o aluno está corretamente matriculado.</div>
+                    <div class="passo"><span class="passo-num">5</span> Verificar se atividades ocultas ou restrições impedem o acesso.</div>
+                    <div class="passo"><span class="passo-num">6</span> Retornar à conta administrativa e conferir o registro de presença/falta.</div>
+                </div>
+
+                <div class="alerta alerta-warn">
+                    <strong>Critério de conclusão:</strong> a turma deve funcionar do ponto de vista do aluno e do administrador, sem depender de ajustes emergenciais depois da liberação.
+                </div>
+
+                <div class="fluxo-box">
+                    <span class="fluxo-titulo">Fluxo mínimo concluído:</span>
+                    <div class="fluxo-items">
+                        <span class="fluxo-item">Categoria</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Curso</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Coorte</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Usuários</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Matrícula</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Tarefa/PDF</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Presença</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item">Card/Bloco</span><span class="fluxo-seta">→</span>
+                        <span class="fluxo-item fluxo-item-destaque">Validação ✓</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SEÇÃO 12: RUBRICA / CHECKLIST ============ -->
+        <!-- ============ SEÇÃO 12: RUBRICA / CHECKLIST (PÁGINA FINAL COMPACTA) ============ -->
+        <section class="secao rubrica-secao pagina-final-a4">
+            <div class="secao-header rubrica-topo-compacto">
+                <div class="rubrica-titulo-wrap">
+                    <span class="secao-num rubrica-num">12</span>
+                    <h2>Checklist de Avaliação Prática</h2>
+                </div>
+                <div class="rubrica-contador-badge">
+                    <span id="rubricaContador">0</span> de 17 conferidos
+                </div>
+            </div>
+
+            <div class="secao-body rubrica-body-compacto">
+                <div class="rubrica-aviso-mini">
+                    <strong>Critério de Aprovação:</strong> O participante deve executar o fluxo básico com autonomia e compreender a relação entre categoria, curso, coorte, usuário, matrícula, atividades, presença e personalização.
+                </div>
+
+                <table class="tabela-rubrica tabela-rubrica-compacta">
+                    <thead>
+                        <tr>
+                            <th class="col-num">#</th>
+                            <th class="col-evidencia">Evidência / Competência</th>
+                            <th class="col-conferido">Conferido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Acessou Administração do site e identificou o Modo de edição.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Criou/selecionou corretamente uma categoria.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Criou um curso na categoria correta.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Configurou nome breve, visibilidade, data e imagem do curso.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Criou uma coorte e definiu seu ID.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Transformou a relação em CSV UTF-8 com colunas válidas.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>Importou usuários por CSV e conferiu a pré-visualização.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>Adicionou um usuário individualmente.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>Alterou a senha de um usuário.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>Vinculou a coorte ao curso e conferiu Participantes.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td>Adicionou/configurou Presença.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>Criou uma sessão e registrou presente/falta.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                            <td>Adicionou/configurou uma Tarefa.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>Disponibilizou um PDF corretamente para os alunos.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td>Alterou a imagem do card da turma.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>16</td>
+                            <td>Inseriu imagem em bloco de Texto/HTML.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                        <tr>
+                            <td>17</td>
+                            <td>Validou o curso com conta de aluno.</td>
+                            <td class="td-check"><label class="rubrica-check"><input type="checkbox" class="rubrica-cb" onchange="atualizarRubrica()"><span class="rubrica-mark"></span></label></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Painel de Conclusão Unificado (Horizontal / 3 Colunas) -->
+                <div class="painel-conclusao-grid">
+                    <!-- Coluna 1: Resultado Final -->
+                    <div class="col-bloco col-resultado">
+                        <span class="bloco-rotulo">Resultado Final</span>
+                        <div class="resultado-opcoes-compactas">
+                            <label class="resultado-label apto" id="labelApto">
+                                <input type="radio" name="resultado" value="apto" onchange="atualizarResultado()">
+                                <span class="resultado-marca"></span>
+                                <span class="resultado-texto">APTO</span>
+                            </label>
+                            <label class="resultado-label nao-apto" id="labelNaoApto">
+                                <input type="radio" name="resultado" value="nao-apto" onchange="atualizarResultado()">
+                                <span class="resultado-marca"></span>
+                                <span class="resultado-texto">NÃO APTO</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Coluna 2: Observações -->
+                    <div class="col-bloco col-obs">
+                        <label for="observacoes" class="bloco-rotulo">Observações</label>
+                        <textarea id="observacoes" rows="2" placeholder="Observações da atividade..."></textarea>
+                    </div>
+
+                    <!-- Coluna 3: Aluno e Rúbrica -->
+                    <div class="col-bloco col-assinatura">
+                        <span class="bloco-rotulo">Rúbrica do Participante</span>
+                        <div class="rubrica-container-compacto">
+                            <canvas id="rubricaCanvas" width="280" height="65"></canvas>
+                            <div class="rubrica-placeholder" id="rubricaPlaceholder">Faça sua rúbrica aqui</div>
+                            <button type="button" class="btn-limpar-rubrica no-print" onclick="limparRubrica()" title="Limpar rúbrica">Limpar</button>
+                        </div>
+                        <div class="assinatura-linha-compacta"></div>
+                        <div class="aluno-identificacao-compacta">
+                            <input type="text" id="nomeFinalAluno" class="input-nome-inline" placeholder="Nome do participante" oninput="sincronizarNome(this.value)">
+                            <span class="assinatura-nome-print" id="assParticipante">—</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Card de Emissão do Certificado Oficial -->
+        <div class="card-emissao-certificado no-print">
+            <div class="card-emissao-info">
+                <div class="emissao-icon">🎓</div>
+                <div>
+                    <h3>Certificado Oficial de Participação e Capacitação</h3>
+                    <p>Emissão com validação institucional das 17 competências práticas aprendidas no ambiente Moodle ESAP/PGE-RJ.</p>
+                </div>
+            </div>
+            <button type="button" class="btn-solicitar-certificado" onclick="abrirModalSenhaCertificado()">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <span>Gerar Certificado Oficial</span>
+            </button>
+        </div>
+
+    </div><!-- /areaPrint -->
+
+    <!-- Botões flutuantes -->
+    <div class="botoes-flutuantes no-print">
+        <button class="btn-cert" onclick="abrirModalSenhaCertificado()" title="Gerar Certificado Oficial">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span>Certificado</span>
+        </button>
+        <button class="btn-pdf" onclick="exportarPDF()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Exportar PDF</span>
+        </button>
+        <button class="btn-print" onclick="window.print()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <span>Imprimir</span>
+        </button>
+        <button class="btn-reset" onclick="resetarFormulario()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            <span>Resetar</span>
+        </button>
+    </div>
+
+</div><!-- /conteudoPrincipal -->
+
+<!-- ======================== MODAL DE SENHA INSTITUCIONAL ======================== -->
+<div id="modalSenhaCertificado" class="modal-overlay hidden no-print">
+    <div class="modal-card">
+        <div class="modal-header-lock">
+            <div class="modal-icon-lock">🔐</div>
+            <h3>Autorização Institucional</h3>
+            <p>A emissão do certificado requer validação da <strong>Coordenação</strong> ou do <strong>Gestor Técnico</strong>.</p>
+        </div>
+        <div class="modal-body-lock">
+            <div class="campo-grupo">
+                <label for="senhaCertificado">Senha de Liberação</label>
+                <div class="senha-input-wrapper">
+                    <input type="password" id="senhaCertificado" placeholder="Digite a senha institucional" autocomplete="off">
+                    <button type="button" class="btn-ver-senha" onclick="alternarVisibilidadeSenha()" title="Mostrar/Ocultar Senha">👁️</button>
+                </div>
+                <span class="senha-msg-erro" id="senhaMsgErro"></span>
+            </div>
+        </div>
+        <div class="modal-actions-lock">
+            <button type="button" class="btn-modal-cancelar" onclick="fecharModalSenhaCertificado()">Cancelar</button>
+            <button type="button" class="btn-modal-confirmar" onclick="validarSenhaCertificado()">Liberar Certificado</button>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== MODAL DE VISUALIZAÇÃO DO CERTIFICADO ======================== -->
+<div id="modalCertificado" class="modal-overlay modal-cert-fullscreen hidden">
+    <div class="modal-cert-container">
+        <!-- Barra de Ações Superior do Certificado -->
+        <div class="cert-toolbar no-print">
+            <div class="cert-toolbar-info">
+                <span class="cert-badge-ok">🎓 Certificado Oficial</span>
+                <span class="cert-formato-tag">Orientação Horizontal (A4 Paisagem)</span>
+                <span class="cert-aluno-destaque" id="toolbarNomeAluno">—</span>
+            </div>
+            <div class="cert-toolbar-botoes">
+                <button type="button" class="btn-cert-imprimir" onclick="imprimirCertificado()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    <span>Imprimir Certificado</span>
+                </button>
+                <button type="button" class="btn-cert-pdf" onclick="baixarCertificadoPDF()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span>Baixar PDF (Horizontal)</span>
+                </button>
+                <button type="button" class="btn-cert-fechar" onclick="fecharModalCertificado()">✕ Fechar</button>
+            </div>
+        </div>
+
+        <!-- Painel de Configuração das Autoridades e Modalidade de Assinatura -->
+        <div class="cert-painel-controles no-print">
+            <div class="cert-controles-card">
+                <div class="cert-controles-grid">
+                    <div class="ctrl-campo">
+                        <label for="inputNomeCoordenadora">Nome da Coordenadora</label>
+                        <input type="text" id="inputNomeCoordenadora" value="Dra. Flávia Martins Guimarães" placeholder="Nome da Coordenadora" oninput="atualizarResponsaveisCertificado()">
+                    </div>
+                    <div class="ctrl-campo">
+                        <label for="inputNomeGestor">Gestor Técnico de Ambientes Virtuais (STI • PGE-RJ)</label>
+                        <input type="text" id="inputNomeGestor" value="Carlos Eduardo S. Rocha" placeholder="Nome do Gestor Técnico" oninput="atualizarResponsaveisCertificado()">
+                    </div>
+                    <div class="ctrl-campo ctrl-modalidade">
+                        <label>Opção de Assinatura</label>
+                        <div class="opcoes-modalidade-ass">
+                            <label class="radio-ass-chip">
+                                <input type="radio" name="tipoAssinaturaCert" value="eletronica" checked onchange="alternarTipoAssinaturaCertificado(this.value)">
+                                <span class="chip-text">✍️ Assinatura Eletrônica</span>
+                            </label>
+                            <label class="radio-ass-chip">
+                                <input type="radio" name="tipoAssinaturaCert" value="manual" onchange="alternarTipoAssinaturaCertificado(this.value)">
+                                <span class="chip-text">🖊️ Assinar à Mão (Imprimir)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ÁREA IMPRIMÍVEL DO CERTIFICADO (A4 LANDSCAPE / PAISAGEM HORIZONTAL) -->
+        <div class="cert-viewport">
+            <div id="areaCertificado" class="certificado-oficial">
+                <div class="cert-moldura-externa">
+                    <div class="cert-moldura-interna">
+                        <!-- Brasão e Cabeçalho -->
+                        <div class="cert-topo">
+                            <div class="cert-brasao-icon">🏛️</div>
+                            <div class="cert-instituicao">
+                                <h1>ESTADO DO RIO DE JANEIRO</h1>
+                                <h2>PROCURADORIA GERAL DO ESTADO</h2>
+                                <h3>ESCOLA SUPERIOR DE ADVOCACIA PÚBLICA — ESAP</h3>
+                            </div>
+                            <div class="cert-tarja-tipo">
+                                CERTIFICADO DE CAPACITAÇÃO OPERACIONAL
+                            </div>
+                        </div>
+
+                        <!-- Texto de Certificação -->
+                        <div class="cert-corpo">
+                            <p class="cert-texto-declara">Certificamos, para os devidos fins institucionais, que</p>
+                            <h2 class="cert-participante-nome" id="certNomeAluno">—</h2>
+                            <p class="cert-texto-detalhes">
+                                concluiu com pleno êxito e avaliação <strong>APTO</strong> o <strong>Treinamento Prático Operacional Moodle</strong> ministrado pela ESAP/PGE-RJ em <span id="certDataConclusao">—</span>, no ambiente oficial <strong>esap.pge.rj.gov.br</strong>, demonstrando proficiência e autonomia nas seguintes competências técnicas:
+                            </p>
+                        </div>
+
+                        <!-- Grade de Conteúdo / O que o aluno aprendeu -->
+                        <div class="cert-competencias-box">
+                            <div class="cert-comp-titulo">COMPETÊNCIAS TÉCNICAS HOMOLOGADAS</div>
+                            <div class="cert-comp-grid">
+                                <div class="cert-comp-col">
+                                    <div class="comp-item"><span class="c-check">✔</span> Criação e organização hierárquica de Categorias e Cursos</div>
+                                    <div class="comp-item"><span class="c-check">✔</span> Criação, configuração de ID e gestão de Coortes (Turmas)</div>
+                                    <div class="comp-item"><span class="c-check">✔</span> Estruturação, tratamento e validação de planilhas CSV UTF-8</div>
+                                    <div class="comp-item"><span class="c-check">✔</span> Importação de usuários em massa e cadastro manual com senhas</div>
+                                    <div class="comp-item"><span class="c-check">✔</span> Sincronização de Coorte e métodos oficiais de matrícula</div>
+                                </div>
+                                <div class="cert-comp-col">
+                                    <div class="comp-item"><span class="c-check">✔</span> Configuração e gestão pedagógica de Tarefas avaliativas</div>
+                                    <div class="comp-item"><span class="c-check">✔</span> Disponibilização correta de arquivos e materiais em PDF</div>
+                                    <div class="comp-item"><span class="c-check">✔</span> Instalação, sessões e registro de Presença/Faltas (Attendance)</div>
+                                    <div class="comp-item"><span class="c-check">✔</span> Personalização visual: imagem do card do curso e blocos HTML</div>
+                                    <div class="comp-item"><span class="c-check">✔</span> Auditoria e validação do ambiente sob a perspectiva do estudante</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Assinaturas e Selo Oficial -->
+                        <div class="cert-assinaturas-container">
+                            <!-- Assinatura Coordenadora -->
+                            <div class="cert-ass-bloco" id="blocoAssCoordenadora">
+                                <div class="cert-rubrica-desenho" id="rubricaCoordenadoraWrap">
+                                    <span class="rubrica-digital-coordenadora" id="rubricaTextoCoordenadora">Flávia M. Guimarães</span>
+                                    <span class="selo-assinatura-digital">Assinado Eletronicamente</span>
+                                </div>
+                                <div class="espaco-assinatura-manual hidden" id="manualCoordenadoraWrap">
+                                    <span class="manual-hint">[ Assinatura à mão ]</span>
+                                </div>
+                                <div class="cert-ass-traco"></div>
+                                <span class="cert-autoridade-nome" id="certNomeCoordenadora">Dra. Flávia Martins Guimarães</span>
+                                <span class="cert-autoridade-cargo">Coordenadora Geral Pedagógica</span>
+                                <span class="cert-autoridade-orgao">ESAP • PGE-RJ</span>
+                            </div>
+
+                            <!-- Selo Dourado Central -->
+                            <div class="cert-selo-wrap">
+                                <div class="cert-selo-emblema">
+                                    <span class="selo-estrela">★ ★ ★</span>
+                                    <span class="selo-titulo">CONCLUÍDO COM ÊXITO</span>
+                                    <span class="selo-ambiente">MOODLE PGE-RJ</span>
+                                    <span class="selo-hash" id="certCodigoAutenticidade">COD: ESAP-2026-OK</span>
+                                </div>
+                            </div>
+
+                            <!-- Assinatura Gestor Técnico -->
+                            <div class="cert-ass-bloco" id="blocoAssGestor">
+                                <div class="cert-rubrica-desenho" id="rubricaGestorWrap">
+                                    <span class="rubrica-digital-gestor" id="rubricaTextoGestor">Carlos Eduardo S. Rocha</span>
+                                    <span class="selo-assinatura-digital">Assinado Eletronicamente</span>
+                                </div>
+                                <div class="espaco-assinatura-manual hidden" id="manualGestorWrap">
+                                    <span class="manual-hint">[ Assinatura à mão ]</span>
+                                </div>
+                                <div class="cert-ass-traco"></div>
+                                <span class="cert-autoridade-nome" id="certNomeGestor">Carlos Eduardo S. Rocha</span>
+                                <span class="cert-autoridade-cargo">Gestor Técnico de Ambientes Virtuais</span>
+                                <span class="cert-autoridade-orgao">Superintendência de TI • PGE-RJ</span>
+                            </div>
+                        </div>
+
+                        <!-- Rodapé do Certificado -->
+                        <div class="cert-rodape-legal">
+                            <span>Documento oficial de certificação profissional interna expedido pela Escola Superior de Advocacia Pública (ESAP/PGE-RJ).</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
